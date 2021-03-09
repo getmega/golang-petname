@@ -26,9 +26,34 @@ import (
 )
 
 // Make sure the generated names exist
+func TestPetNameForZeroWords(t *testing.T) {
+	name := Generate(0, 0, "")
+	if name != "" {
+		t.Fatalf("Generated a 0-word name, '%s'", name)
+	}
+}
+
+func TestPetNameForMaxLengthTooLess(t *testing.T) {
+	for i := 1; i < 10; i++ {
+		name := Generate(i, 1, "")
+		if name != "" {
+			t.Fatalf("Generated a %d-word name, '%s'", i, name)
+		}
+	}
+}
+
+func TestPetNameForMaxLengthTooMuch(t *testing.T) {
+	for i := 1; i < 10; i++ {
+		name := Generate(i, 50, "")
+		if name == "" {
+			t.Fatalf("Did not generate a %d-word name, '%s'", i, name)
+		}
+	}
+}
+
 func TestPetName(t *testing.T) {
-	for i:=0; i<10; i++ {
-		name := Generate(i, "-")
+	for i := 1; i < 10; i++ {
+		name := Generate(i, 8, "")
 		if name == "" {
 			t.Fatalf("Did not generate a %d-word name, '%s'", i, name)
 		}
